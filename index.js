@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 
 
 const app = express();
@@ -38,6 +38,25 @@ async function run() {
       console.log(newJobPost);
       // res.header("Access-Control-Allow-Origin", "*");
       const result = await jobCollection.insertOne(newJobPost);
+      res.send(result);
+    })
+
+
+    app.get('/joblisted', async(req, res) => {
+      const cursor = jobCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    })
+
+
+    app.get('/joblisted/:id', async(req, res) => {
+      // const id = req.params.id;
+      // const query = {_id: new ObjectId(id)}
+      // const result = await jobCollection.findOne(query);
+      // res.send(result);
+      const id = req.params.id;
+      const query = {_id: new ObjectId(id)}
+      const result = await jobCollection.findOne(query);
       res.send(result);
     })
 
