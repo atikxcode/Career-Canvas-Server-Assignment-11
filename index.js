@@ -61,7 +61,31 @@ async function run() {
     })
 
 
- 
+    app.put('/joblisted/:id', async(req, res) => {
+      const id = req.params.id;
+      const filter = {_id: new ObjectId(id)};
+      const options = { upsert: true };
+      const updateJobDetails = req.body;
+      const Jobcard = {
+        $set: {
+          title: updateJobDetails.title,
+          image: updateJobDetails.image,
+          category: updateJobDetails.category,
+          salaryRange: updateJobDetails.salaryRange,
+          description: updateJobDetails.description,
+          postingDate: updateJobDetails.postingDate,
+          deadline: updateJobDetails.deadline,
+          travel_time: updateJobDetails.travel_time,
+          totalApplied: updateJobDetails.totalApplied
+        }
+      }
+      
+  
+      const result = await jobCollection.updateOne(filter, Jobcard, options);
+      // res.header("Access-Control-Allow-Origin", "*");
+      res.send(result);
+     })
+
 
 
      app.delete('/joblisted/:id', async(req, res) => {
