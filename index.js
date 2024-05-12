@@ -128,6 +128,8 @@ async function run() {
         res.status(500).send({success: false, message: 'Internal server error'});
       }
      })
+    
+    
 
 
      app.get('/appliedjob', async(req, res) => {
