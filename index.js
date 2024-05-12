@@ -48,6 +48,15 @@ async function run() {
       res.send(result);
     })
 
+    app.delete('/joblisted/:id', async(req, res) => {
+      const id = req.params.id;
+      const query = {_id: new ObjectId(id)};
+      const result = await jobCollection.deleteOne(query);
+      // res.header("Access-Control-Allow-Origin", "*");
+      res.send(result);
+    })
+
+
 
     app.get('/joblisted/:id', async(req, res) => {
       // const id = req.params.id;
@@ -59,6 +68,12 @@ async function run() {
       const result = await jobCollection.findOne(query);
       res.send(result);
     })
+
+
+    
+
+   
+    
 
 
     app.put('/joblisted/:id', async(req, res) => {
@@ -75,7 +90,6 @@ async function run() {
           description: updateJobDetails.description,
           postingDate: updateJobDetails.postingDate,
           deadline: updateJobDetails.deadline,
-          travel_time: updateJobDetails.travel_time,
           totalApplied: updateJobDetails.totalApplied
         }
       }
@@ -128,9 +142,9 @@ async function run() {
         res.status(500).send({success: false, message: 'Internal server error'});
       }
      })
-    
-    
 
+
+     
 
      app.get('/appliedjob', async(req, res) => {
       const cursor = appliedJobCollection.find();
@@ -140,14 +154,22 @@ async function run() {
 
 
 
-     app.delete('/joblisted/:id', async(req, res) => {
+
+     
+
+     app.get('/appliedjob/:id', async(req, res) => {
       const id = req.params.id;
-      const query = {_id: new ObjectId(id)};
-      const result = await jobCollection.deleteOne(query);
-      // res.header("Access-Control-Allow-Origin", "*");
+      const query = {_id: new ObjectId(id)}
+      const result = await appliedJobCollection.findOne(query);
       res.send(result);
     })
 
+    
+    
+
+
+
+   
 
 
 
